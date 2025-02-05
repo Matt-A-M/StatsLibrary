@@ -1,0 +1,83 @@
+public class StatsLibrary{
+    //mean, adds up all numbers and divides by how many numbers were input
+    public double getMean(int[] userInputNumbers){
+        int total = 0;
+        for(int singleNumber: userInputNumbers){
+            total = total + singleNumber;
+        }
+        double result = (double) total / userInputNumbers.length; //careful int division
+        return result;
+    }
+    
+    //sorts array of numbers from smallest to largest and finds the middle value
+    //could be improved to take up less lines
+    public double getMedian(int[] userInputNumbers){
+        float median = 0;;
+        int medianCalc;
+        float evenMedian;
+        int guide;
+        int length = userInputNumbers.length;
+        for(int i = 1; i < length; i++){
+            guide = userInputNumbers[i];
+            int j = i - 1;
+            while(j >= 0 && userInputNumbers[j] < guide){
+                userInputNumbers[j+1] = userInputNumbers[j];
+                j = j - 1;
+            }
+            userInputNumbers[j+1] = guide;
+        }
+        
+        //if statement related to even arrays i.e. if an array was to have an even number of inputs
+         if (length % 2 != 0){
+        medianCalc = length / 2;
+        median = userInputNumbers[medianCalc];
+        } else{
+            medianCalc = length / 2;
+            evenMedian = userInputNumbers[medianCalc] + userInputNumbers[medianCalc + 1] / 2;
+            median = evenMedian;
+        }
+        
+        return median;
+    }
+    
+    //compares every individual number with each other to find the most common input
+    //could be improved to take up less lines
+    public double getMode(int[] userInputNumbers){
+        int mode = 0;;
+        int count;
+        int maxCount = 0;
+        int length = userInputNumbers.length;
+        for(int i = 0; userInputNumbers[i] < length; i++){
+            count = 0;
+            for(int j = 0; j < length; j++){
+                if(userInputNumbers[i] == userInputNumbers[j]){
+                    count++;
+                }
+                }
+            
+            if(count > maxCount){
+                mode = userInputNumbers[i];
+                maxCount = count;
+            }
+        }
+        return mode;
+    }
+    // could possibly write a method to state if array has no mode
+    
+    //Takes each input subtracted by the mean, squares the result, adds it to a new total, divides it by number of inputs - 1, then square roots it
+    public double getStandardDeviation(int[] userInputNumbers){
+         int total = 0;
+         int replaceTotal = 0;
+        for(int singleNumber: userInputNumbers){
+            total = total + singleNumber;
+        }
+        double result = (double) total / userInputNumbers.length; //careful int division
+        for(int singleNumber: userInputNumbers){
+            double replaceSingleNumber = singleNumber - result;
+            replaceTotal += replaceSingleNumber * replaceSingleNumber;
+        }
+        double variance = (double) replaceTotal / (userInputNumbers.length - 1);
+        double stanDev = Math.sqrt(variance);
+        return stanDev;
+    }
+}
